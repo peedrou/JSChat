@@ -24,6 +24,16 @@ class DatabaseConnection {
   getClient() {
     return this.client;
   }
+
+  async insertData(table: string, data: any) {
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+    const query = `INSERT INTO ${table} (${keys.join(", ")}) VALUES (${keys
+      .map((_, i) => `$${i + 1}`)
+      .join(", ")})`;
+    const result = await this.client.query(query, values);
+    return result;
+  }
 }
 
 export default DatabaseConnection;
