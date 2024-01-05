@@ -21,10 +21,6 @@ class DatabaseConnection {
     await this.client.end();
   }
 
-  getClient() {
-    return this.client;
-  }
-
   async insertData(table: string, data: any) {
     const keys = Object.keys(data);
     const values = Object.values(data);
@@ -33,6 +29,10 @@ class DatabaseConnection {
       .join(", ")})`;
     const result = await this.client.query(query, values);
     return result;
+  }
+
+  getClient() {
+    return this.client;
   }
 }
 

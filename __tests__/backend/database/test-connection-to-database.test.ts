@@ -16,3 +16,21 @@ describe("Database Connection", () => {
     dbConnection.disconnect();
   });
 });
+
+describe("Insert Data", () => {
+  let dbConnection: DatabaseConnection;
+  let data = { header1: "test", header2: "20" };
+
+  beforeAll(() => {
+    dbConnection = new DatabaseConnection();
+    dbConnection.connect();
+  });
+
+  it("should insert data without error", async () => {
+    await expect(dbConnection.insertData("test", data)).resolves.not.toThrow();
+  });
+
+  afterAll(() => {
+    dbConnection.disconnect();
+  });
+});
