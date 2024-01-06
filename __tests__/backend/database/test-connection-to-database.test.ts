@@ -17,7 +17,7 @@ describe("Database Connection", () => {
   });
 });
 
-describe("Insert Data", () => {
+describe("Insert Data to Test Table", () => {
   let dbConnection: DatabaseConnection;
   let data = { header1: "test", header2: "20" };
 

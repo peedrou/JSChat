@@ -31,6 +31,33 @@ class DatabaseConnection {
     return result;
   }
 
+  async getData(table: string, attribute: string, value: any) {
+    const query = `SELECT * FROM ${table} WHERE ${attribute} = $1`;
+    const result = await this.client.query(query, [value]);
+    return result;
+  }
+
+  async deleteAttribute(table: string, attribute: string, value: any) {
+    const query = `DELETE FROM ${table} WHERE ${attribute} = $1`;
+    const result = await this.client.query(query, [value]);
+    return result;
+  }
+
+  async updateAttribute(
+    table: string,
+    attributeToUpdate: string,
+    attributeToSearch: string,
+    valueToUpdate: any,
+    valueToSearch: any
+  ) {
+    const query = `UPDATE ${table} SET ${attributeToUpdate} = $1 WHERE ${attributeToSearch} = $2`;
+    const result = await this.client.query(query, [
+      valueToUpdate,
+      valueToSearch,
+    ]);
+    return result;
+  }
+
   getClient() {
     return this.client;
   }
