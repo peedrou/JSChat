@@ -21,6 +21,26 @@ class DatabaseConnection {
     await this.client.end();
   }
 
+  async createMessagesTable() {
+    const query = `
+      CREATE TABLE IF NOT EXISTS messages (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        chat_id INTEGER REFERENCES chats(id),
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+
+    try {
+      const result = await this.client.query(query);
+      return result;
+    } catch (error) {
+      console.error("Error creating messages table:", error);
+      throw error;
+    }
+  }
+
   async insertData(table: string, data: any) {
     const keys = Object.keys(data);
     const values = Object.values(data);
@@ -34,6 +54,17 @@ class DatabaseConnection {
   async getData(table: string, attribute: string, value: any) {
     const query = `SELECT * FROM ${table} WHERE ${attribute} = $1`;
     const result = await this.client.query(query, [value]);
+    return result;
+  }
+
+  async getDataDualAttribute(
+    table: string,
+    attribute1: string,
+    attribute2: string,
+    values: Array<any>
+  ) {
+    const query = `SELECT * FROM ${table} WHERE ${attribute1} = $1 AND ${attribute2} = $2`;
+    const result = await this.client.query(query, [values]);
     return result;
   }
 

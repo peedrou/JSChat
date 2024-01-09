@@ -12,7 +12,7 @@ describe("Create a Chat", () => {
     chatModel = new ChatModel();
   });
 
-  it("should create chat without error", async () => {
+  it("should create a chat without error", async () => {
     await expect(chatModel.createChat(data)).resolves.not.toThrow();
   });
 });
